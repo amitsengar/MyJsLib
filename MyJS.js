@@ -96,7 +96,41 @@ MyJsClass = {
                 AjaxListSelect(event, ui);
             }
         });
-    }
+    },
+     BindDDList: function (ddl, optionData, idfield, textfield) {
+                if (idfield == undefined || idfield == null) {
+                    idfield = "Id";
+                }
+                if (textfield == undefined || textfield == null) {
+                    textfield = "Name";
+                }
+                // To clear dropdown values we need to write code like as shown below
+                $("#" + ddl).empty();
+                // Bind new values to dropdown
+                var i = 0;
+                if ($(optionData).length > 0) {
+                    $(optionData).each(function (k, v) {
+                        // Create option
+                        var option = $("<option />");
+                        if (i == 0) {
+                            option.attr("value", '0').text('Select All');
+                            $("#" + ddl).append(option);
+                            option = $("<option />");
+                            option.attr("value", $(v).prop(idfield)).text($(v).prop(textfield));
+                        } else {
+                            option.attr("value", $(v).prop(idfield)).text($(v).prop(textfield));
+                        }
+                        $("#" + ddl).append(option);
+                        ++i;
+                    });
+
+                } else {
+                    var option = $("<option />");
+                    option.attr("value", '0').text('Select All');
+                    $("#" + ddl).append(option);
+                }
+                $("#" + ddl).val(5).trigger("chosen:updated");
+            }
     /*---------------------------------------------------------------------------------------------------------
                              End  Ajax Server Call For AutoComplete Request 
 ----------------------------------------------------------------------------------------------------------*/
